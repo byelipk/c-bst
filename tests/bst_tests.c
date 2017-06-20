@@ -102,6 +102,62 @@ char * test_inserting_multiple_nodes()
     return NULL;
 }
 
+char * test_find_min()
+{
+    bstring test1 = bfromcstr("Nice!");
+    bstring test2 = bfromcstr("Good!");
+    bstring test3 = bfromcstr("Sweet!");
+
+    Tree * tree = Tree_create();
+
+    Tree_insert(tree, &test1, NULL);
+    Tree_insert(tree, &test2, NULL);
+    Tree_insert(tree, &test3, NULL);
+
+    // Do stuff...
+
+    Tree * min = Tree_find_min(tree);
+
+    mu_assert(min->data == &test2, "Failed to find min node.");
+
+    // Cleanup
+    Tree_destroy(tree);
+
+    bdestroy(test1);
+    bdestroy(test2);
+    bdestroy(test3);
+
+    return NULL;
+}
+
+char * test_find_max()
+{
+    bstring test1 = bfromcstr("Nice!");
+    bstring test2 = bfromcstr("Good!");
+    bstring test3 = bfromcstr("Sweet!");
+
+    Tree * tree = Tree_create();
+
+    Tree_insert(tree, &test1, NULL);
+    Tree_insert(tree, &test2, NULL);
+    Tree_insert(tree, &test3, NULL);
+
+    // Do stuff...
+
+    Tree * min = Tree_find_max(tree);
+
+    mu_assert(min->data == &test3, "Failed to find max node.");
+
+    // Cleanup
+    Tree_destroy(tree);
+
+    bdestroy(test1);
+    bdestroy(test2);
+    bdestroy(test3);
+
+    return NULL;
+}
+
 char *all_tests()
 {
     mu_suite_start();
@@ -112,6 +168,8 @@ char *all_tests()
     mu_run_test(test_inserting_node_into_empty_tree);
     mu_run_test(test_searching_for_first_node_in_tree);
     mu_run_test(test_inserting_multiple_nodes);
+    mu_run_test(test_find_min);
+    mu_run_test(test_find_max);
 
     return NULL;
 }

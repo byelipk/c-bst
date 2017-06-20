@@ -32,6 +32,8 @@ void Tree_destroy(Tree * tree);
 // O(h) where h is the height of the tree
 Tree * Tree_search(Tree * tree, void * value, Tree_compare compare);
 
+Tree * Tree_find_min(Tree * tree);
+Tree * Tree_find_max(Tree * tree);
 
 typedef int (*Traversal_cb)(Tree * tree);
 
@@ -40,6 +42,7 @@ void Tree_traverse_in_order(Tree * node, Traversal_cb callback);
 void Tree_traverse_post_order(Tree * node, Traversal_cb callback);
 
 int Tree_insert(Tree * parent, void * value, Tree_compare compare);
+
 
 static inline int Tree_root_is_empty(Tree * node) {
   return node->parent == NULL &&

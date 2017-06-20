@@ -155,3 +155,29 @@ int Tree_insert(Tree * parent, void * value, Tree_compare compare)
 
     return 0;
 }
+
+Tree * Tree_find_min(Tree * node) {
+    check(node != NULL, "Invalid tree.");
+
+    while (node->left) {
+        node = node->left;
+    }
+
+    return node;
+
+error:
+    return NULL;
+}
+
+Tree * Tree_find_max(Tree * node) {
+    check(node != NULL, "Invalid tree.");
+
+    while (node->right) {
+        node = node->right;
+    }
+
+    return node;
+
+error:
+    return NULL;
+}
