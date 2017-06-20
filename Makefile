@@ -92,3 +92,6 @@ install: all
 check:
 	@echo Files with potentially dangerous functions.
 	@egrep '[^_.>a-zA-Z0-9](str(n?cpy|n?cat|xfrm|n?dup|str|pbrk|tok|_)|stpn?cpy|a?sn?printf|byte_)' $(SOURCES) || true
+
+ctags:
+	ctags --c-kinds=+defgmpstux -R
