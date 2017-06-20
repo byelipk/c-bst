@@ -1,0 +1,127 @@
+#include <bst/bst.h>
+
+Tree * Tree_create()
+{
+    Tree * tree = calloc(1, sizeof(struct Tree));
+    check_mem(tree);
+
+    return tree;
+
+error:
+    if (tree) {
+        Tree_destroy(tree);
+    }
+    return NULL;
+}
+
+static int Tree_destroy_cb(Tree * node)
+{
+    free(node);
+    return 0;
+}
+
+void Tree_destroy(Tree * tree)
+{
+    check(tree != NULL, "Invalid tree.");
+
+    Tree_traverse_in_order(tree, Tree_destroy_cb);
+
+error:
+    return;
+}
+
+static int default_compare(void * a, void * b)
+{
+    return bstrcmp((bstring) a, (bstring) b);
+}
+
+Tree * Tree_search(Tree * tree, void * value, Tree_compare compare)
+{
+    check(tree != NULL, "Invalid tree.");
+
+    if (compare == NULL) {
+        compare = default_compare; // use the default comparison function
+    }
+
+    int cmp = compare(value, tree->data);
+
+    if (cmp == 0) {
+        return tree; // The base case
+    }
+
+    else if (cmp < 0) {
+        return Tree_search(tree->left, value, compare);  // go left
+    }
+
+    else {
+        return Tree_search(tree->right, value, compare); // go right
+    }
+
+error:
+    return NULL;
+}
+
+void Tree_traverse_pre_order(Tree * node, Traversal_cb callback)
+{
+    if (node) {
+        callback(node->data);
+
+        Tree_traverse_in_order(node->left, callback);
+
+        Tree_traverse_post_order(node->right, callback);
+    }
+}
+
+void Tree_traverse_in_order(Tree * node, Traversal_cb callback)
+{
+    if (node) {
+        Tree_traverse_in_order(node->left, callback);
+
+        callback(node);
+
+        Tree_traverse_post_order(node->right, callback);
+    }
+}
+
+void Tree_traverse_post_order(Tree * node, Traversal_cb callback)
+{
+    if (node) {
+        Tree_traverse_in_order(node->left, callback);
+
+        Tree_traverse_post_order(node->right, callback);
+
+        callback(node);
+    }
+}
+
+Tree * Tree_node_create(Tree * parent, void * value)
+{
+    check(parent != NULL, "Invalid parent node.");
+
+    Tree * node = calloc(1, sizeof(Tree));
+    check_mem(node);
+
+    node->data   = value;
+    node->parent = parent;
+    node->left   = NULL;
+    node->right  = NULL;
+
+    return node;
+
+error:
+    return NULL;
+}
+
+int Tree_insert(Tree * parent, void * value)
+{
+    // The tree is empty 😕
+    if (parent->parent == NULL) {
+        parent->left = Tree_node_create(parent, value);
+        check_mem(parent->left);
+    }
+
+    return 0;
+
+error:
+    return -1;
+}
