@@ -1,4 +1,4 @@
-#include <bst/bst.h>
+#include <bstmap/bstmap.h>
 
 static int default_compare(void *a, void *b)
 {
@@ -298,7 +298,7 @@ static inline BSTreeNode * BSTree_node_delete(
         else if (node->right) {
             BSTree_replace_node_in_parent(map, node, node->right);
         }
-        
+
         // No children
         else {
             BSTree_replace_node_in_parent(map, node, NULL);

@@ -3,9 +3,9 @@
 
 #include <stdlib.h>
 #include <assert.h>
-#include <bst/dbg.h>
-#include <bst/bstrlib.h>
-#include <bst/bstraux.h>
+#include <bstmap/dbg.h>
+#include <bstmap/bstrlib.h>
+#include <bstmap/bstraux.h>
 
 
 // Binary Search Tree

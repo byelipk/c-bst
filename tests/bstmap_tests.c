@@ -1,5 +1,5 @@
 #include "minunit.h"
-#include <bst/bst.h>
+#include <bstmap/bstmap.h>
 #include <time.h>
 
 BSTree *map = NULL;
