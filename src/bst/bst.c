@@ -66,9 +66,9 @@ void Tree_traverse_pre_order(Tree * node, Traversal_cb callback)
     if (node) {
         callback(node->data);
 
-        Tree_traverse_in_order(node->left, callback);
+        Tree_traverse_pre_order(node->left, callback);
 
-        Tree_traverse_post_order(node->right, callback);
+        Tree_traverse_pre_order(node->right, callback);
     }
 }
 
@@ -79,14 +79,14 @@ void Tree_traverse_in_order(Tree * node, Traversal_cb callback)
 
         callback(node);
 
-        Tree_traverse_post_order(node->right, callback);
+        Tree_traverse_in_order(node->right, callback);
     }
 }
 
 void Tree_traverse_post_order(Tree * node, Traversal_cb callback)
 {
     if (node) {
-        Tree_traverse_in_order(node->left, callback);
+        Tree_traverse_post_order(node->left, callback);
 
         Tree_traverse_post_order(node->right, callback);
 
