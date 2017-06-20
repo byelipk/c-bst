@@ -117,33 +117,44 @@ void *BSTree_get(BSTree * map, void *key)
     }
 }
 
-static inline int BSTree_traverse_nodes(BSTreeNode * node,
-        BSTree_traverse_cb traverse_cb)
+// Uses post order depth-first traversal
+static inline int BSTree_traverse_nodes(
+    BSTreeNode * node, BSTree_traverse_cb traverse_cb)
 {
+    check_mem(node);
+
     int rc = 0;
 
     if (node->left) {
         rc = BSTree_traverse_nodes(node->left, traverse_cb);
-        if (rc != 0)
+        if (rc != 0) {
             return rc;
+        }
     }
 
     if (node->right) {
         rc = BSTree_traverse_nodes(node->right, traverse_cb);
-        if (rc != 0)
+        if (rc != 0) {
             return rc;
+        }
     }
 
     return traverse_cb(node);
+error:
+    return -1;
 }
 
 int BSTree_traverse(BSTree * map, BSTree_traverse_cb traverse_cb)
 {
+    check_mem(map);
+
     if (map->root) {
         return BSTree_traverse_nodes(map->root, traverse_cb);
     }
 
     return 0;
+error:
+    return -1;
 }
 
 static inline BSTreeNode *BSTree_find_min(BSTreeNode * node)
