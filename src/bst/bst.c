@@ -112,16 +112,46 @@ error:
     return NULL;
 }
 
-int Tree_insert(Tree * parent, void * value)
+static inline void Tree_insert_node(
+    Tree * node, void * value, Tree_compare compare)
 {
-    // The tree is empty 😕
-    if (parent->parent == NULL) {
-        parent->left = Tree_node_create(parent, value);
-        check_mem(parent->left);
+    check(node != NULL, "Invalid node.");
+
+    if (compare == NULL) {
+        compare = default_compare; // use the default comparison function
+    }
+
+    int cmp = compare(value, node->data);
+
+    if (cmp <= 0) { // GO LEFT
+        if (node->left) {
+            Tree_insert_node(node->left, value, compare);
+        }
+        else {
+            node->left = Tree_node_create(node, value);
+        }
+    }
+    else { // GO RIGHT
+        if (node->right) {
+            Tree_insert_node(node->right, value, compare);
+        }
+        else {
+            node->right = Tree_node_create(node, value);
+        }
+    }
+
+error:
+    return;
+}
+
+int Tree_insert(Tree * parent, void * value, Tree_compare compare)
+{
+    if (Tree_root_is_empty(parent)) {
+        parent->data = value;
+    }
+    else {
+        Tree_insert_node(parent, value, compare);
     }
 
     return 0;
-
-error:
-    return -1;
 }

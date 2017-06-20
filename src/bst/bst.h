@@ -39,6 +39,11 @@ void Tree_traverse_pre_order(Tree * node, Traversal_cb callback);
 void Tree_traverse_in_order(Tree * node, Traversal_cb callback);
 void Tree_traverse_post_order(Tree * node, Traversal_cb callback);
 
-int Tree_insert(Tree * parent, void * value);
+int Tree_insert(Tree * parent, void * value, Tree_compare compare);
+
+static inline int Tree_root_is_empty(Tree * node) {
+  return node->parent == NULL &&
+         node->data   == NULL;
+}
 
 #endif
