@@ -1,5 +1,5 @@
-#ifndef _bst
-#define _bst
+#ifndef _bstmap
+#define _bstmap
 
 #include <stdlib.h>
 #include <assert.h>
