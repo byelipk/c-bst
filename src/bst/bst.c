@@ -151,8 +151,10 @@ int BSTree_traverse(BSTree * map, BSTree_traverse_cb traverse_cb)
     if (map->root) {
         return BSTree_traverse_nodes(map->root, traverse_cb);
     }
+    else {
+      return 0;
+    }
 
-    return 0;
 error:
     return -1;
 }
